@@ -6,4 +6,4 @@ A small painting application for calculating cost of paint a room with 4 walls
   * -Undercoat Selection
 
 * Required Libraries:
- * -Tkinter which is built in and no pip download required!
+  * -Tkinter which is built in and no pip download required!
