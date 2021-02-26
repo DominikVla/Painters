@@ -1,13 +1,14 @@
 import tkinter
 import tkinter.messagebox
 from tkinter import *
+import string as st
 
 bg_colour ='blue'
 if bg_colour =='blue':
     calc_colour = 'royal blue'
     input_colour = 'royalblue1'
 
-
+calc_lock = True
 # Let's create the Tkinter window
 window = tkinter.Tk()
 window.configure(bg=bg_colour)
@@ -18,6 +19,11 @@ Label(window, bg=bg_colour, text = "Name").grid(row = 0)
 name = Entry(window)
 name.grid(row = 0, column = 1)
 name.configure(bg=input_colour)
+
+Label(window, bg=bg_colour, text = "Email").grid(row = 1)
+email = Entry(window)
+email.grid(row = 1, column = 1)
+email.configure(bg=input_colour)
 
 Label(window, bg= bg_colour, text = "Height").grid(row = 0, column = 15)
 height = Entry(window)
@@ -54,6 +60,53 @@ use_undercoat = IntVar()
 undercoat = Checkbutton(window, bg=bg_colour, text = "Undercoat", variable=use_undercoat)
 undercoat.grid(row = 5, column = 1)
 
+Label(window, bg=bg_colour, text = "ISBN No.").grid(row = 6, column = 0)
+isbn = Entry(window)
+isbn.grid(row = 6, column = 1)
+isbn.configure(bg=input_colour)
+
+Label(window, bg=bg_colour, text = "P. No.").grid(row = 6, column = 2)
+page = Entry(window)
+page.grid(row = 6, column = 3)
+page.configure(bg=input_colour)
+
+def check_info():
+    global calc_lock
+    nname = name.get()
+    mail = email.get()
+    pnum = page.get()
+    hheight = height.get()
+    ISBN = isbn.get()
+    if len(name.get()) <2:
+        tkinter.messagebox.showinfo("Invalid Name Entry", "Name too short")
+    elif not nname.isalpha():
+        tkinter.messagebox.showinfo("Invalid Name Entry", "Name must not contain numbers")
+    elif mail.find("@") <0:
+        tkinter.messagebox.showinfo("Invalid Email Entry", "Invalid Email")
+    elif not ISBN.isdigit():
+        tkinter.messagebox.showinfo("Invalid ISBN Entry", "ISBN should be numerical")
+    elif len(isbn.get()) !=10:
+        isbn_len = len(isbn.get())
+        tkinter.messagebox.showinfo("Invalid ISBN Number", f"ISBN needs to include 10 Numbers, not {isbn_len} ")
+    elif not pnum.isdigit():
+        tkinter.messagebox.showinfo("Invalid Page Entry", "Page should be a number")
+    elif not pnum.find("0", 0, 1):
+        tkinter.messagebox.showinfo("Invalid Page Entry", "Page should be a number that's above 0")
+    elif not hheight.isdigit():
+        tkinter.messagebox.showinfo("Invalid Height Entry", "Height field should be numerical")
+    elif len(height.get()) < 1:
+        tkinter.messagebox.showinfo("Invalid Height", "Height field is required and can't be blank")
+    elif not l1.get().isdigit() or not l2.get().isdigit() or not l3.get().isdigit() or not l4.get().isdigit():
+        tkinter.messagebox.showinfo("Invalid Length input", "Lengths must be numerical")
+    elif len(l1.get()) < 1 or len(l2.get()) < 1 or len(l3.get()) < 1 or len(l4.get()) < 1:
+        tkinter.messagebox.showinfo("Invalid Lengths", "4 lengths are needed")
+    else:
+        tkinter.messagebox.showinfo("Perfect!", "All requirements are set!")
+        calc_lock = False
+        if calc_lock ==False:
+            tkinter.Button(window, bg=calc_colour, text = "Calculate", command = perform_calc).grid(row = 15, column = 2)
+
+tkinter.Button(window, bg=calc_colour, text = "Check info", command = check_info).grid(row = 15, column = 1)
 
 def perform_calc():
     paint_quality =  paint_choice.get()
@@ -75,7 +128,7 @@ def perform_calc():
     itemised_total += f"Paint cost = {total_paint_cost}"
 
     tkinter.messagebox.showinfo("Alert Message", itemised_total)
-
-tkinter.Button(window, bg=calc_colour, text = "Calculate", command = perform_calc).grid(row = 14, column = 1)
+if calc_lock ==False:
+    tkinter.Button(window, bg=calc_colour, text = "Calculate", command = perform_calc).grid(row = 15, column = 2)
 
 window.mainloop()
