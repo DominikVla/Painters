@@ -128,7 +128,5 @@ def perform_calc():
     itemised_total += f"Paint cost = {total_paint_cost}"
 
     tkinter.messagebox.showinfo("Alert Message", itemised_total)
-if calc_lock ==False:
-    tkinter.Button(window, bg=calc_colour, text = "Calculate", command = perform_calc).grid(row = 15, column = 2)
 
 window.mainloop()
